@@ -1,4 +1,25 @@
-const lenis = new Lenis()
+// const lenis = new Lenis()
+
+// lenis.on('scroll', (e) => {
+//     console.log(e)
+// })
+
+// function raf(time) {
+//     lenis.raf(time)
+//     requestAnimationFrame(raf)
+// }
+// Remove: const lenis = new Lenis()
+// Use this optimized version instead:
+const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Retains a nice easing
+    direction: 'vertical',
+    gestureDirection: 'vertical', // ✨ CRITICAL for mobile touch control
+    smooth: true,
+    mouseMultiplier: 0.6,
+    touchMultiplier: 2.0, // ✨ Increase this to make scrolling feel faster on mobile
+    infinite: false,
+});
 
 lenis.on('scroll', (e) => {
     console.log(e)
@@ -9,6 +30,8 @@ function raf(time) {
     requestAnimationFrame(raf)
 }
 
+requestAnimationFrame(raf)
+// ... rest of your code ...
 var tl = gsap.timeline({
     scrollTrigger: {
         trigger: ".part-1",
@@ -375,157 +398,157 @@ items.forEach((el) => {
 
 
 
-    // Updated Selectors
-    const fullScreenMenu = document.querySelector(".full-screen-menu");
-    const navToggleWrapper = document.getElementById("nav-toggle-wrapper");
-    const pixelGridOverlay = document.querySelector("#pixel-grid-overlay");
-    
-    let pixelUnits = [];
-    const unitSize = 100; 
-    
-    const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight;
-    
-    const numCols = Math.ceil(screenWidth / unitSize);
-    const numRows = Math.ceil(screenHeight / unitSize);
-    const numUnits = numCols * numRows;
+// Updated Selectors
+const fullScreenMenu = document.querySelector(".full-screen-menu");
+const navToggleWrapper = document.getElementById("nav-toggle-wrapper");
+const pixelGridOverlay = document.querySelector("#pixel-grid-overlay");
 
-    pixelGridOverlay.style.width = `${numCols * unitSize}px`;
-    pixelGridOverlay.style.height = `${numRows * unitSize}px`;
+let pixelUnits = [];
+const unitSize = 100;
 
-    // FIX 1: Initialize zIndex to -1 so it's hidden behind everything at start
-    gsap.set(fullScreenMenu, { opacity: 0, zIndex: -1 });
+const screenWidth = window.innerWidth;
+const screenHeight = window.innerHeight;
 
-    function createPixelUnits() {
-        for (let i = 0; i < numUnits; i++) {
-            const unit = document.createElement("div");
-            unit.classList.add("pixel-unit"); 
-            pixelGridOverlay.appendChild(unit);
-            pixelUnits.push(unit);
-        }
+const numCols = Math.ceil(screenWidth / unitSize);
+const numRows = Math.ceil(screenHeight / unitSize);
+const numUnits = numCols * numRows;
+
+pixelGridOverlay.style.width = `${numCols * unitSize}px`;
+pixelGridOverlay.style.height = `${numRows * unitSize}px`;
+
+// FIX 1: Initialize zIndex to -1 so it's hidden behind everything at start
+gsap.set(fullScreenMenu, { opacity: 0, zIndex: -1 });
+
+function createPixelUnits() {
+    for (let i = 0; i < numUnits; i++) {
+        const unit = document.createElement("div");
+        unit.classList.add("pixel-unit");
+        pixelGridOverlay.appendChild(unit);
+        pixelUnits.push(unit);
     }
+}
 
-    function animatePixelUnits() {
-        gsap.fromTo(pixelUnits, {
-            opacity: 0,
-        }, {
-            opacity: 1,
-            delay: 0, // FIX 2: Start pixel animation immediately on click
-            duration: 0.05,
-            stagger: {
-                each: 0.004,
-                from: "random",
-            },
-        });
-
-        gsap.to(pixelUnits, {
-            opacity: 0,
-            delay: 1.5,
-            duration: 0.05,
-            stagger: {
-                each: 0.004,
-                from: "random",
-            },
-        });
-    }
-
-    let overlayVisible = false;
-
-    navToggleWrapper.addEventListener("click", () => {
-        // Clear old pixels and create new ones for the animation
-        pixelGridOverlay.innerHTML = "";
-        pixelUnits = [];
-        createPixelUnits();
-        animatePixelUnits();
-
-        // Logic for OPENING the menu
-        if (!overlayVisible) {
-            // 1. Bring menu to front immediately
-            gsap.set(fullScreenMenu, { zIndex: 9990 });
-
-            // 2. Fade in the menu text (Wait 1.2s for pixels to cover screen)
-            gsap.to(fullScreenMenu, 0.5, {
-                opacity: 1,
-                visibility: "visible",
-                delay: 1.2,
-            });
-        } 
-        // Logic for CLOSING the menu
-        else {
-            // 1. Fade out menu text immediately
-            gsap.to(fullScreenMenu, 0.5, {
-                opacity: 0,
-                visibility: "hidden",
-                delay: 0,
-            });
-
-            // 2. Send zIndex to back AFTER fade out is done
-            gsap.set(fullScreenMenu, { 
-                zIndex: -1, 
-                delay: 0.5 
-            });
-        }
-
-        overlayVisible = !overlayVisible;
+function animatePixelUnits() {
+    gsap.fromTo(pixelUnits, {
+        opacity: 0,
+    }, {
+        opacity: 1,
+        delay: 0, // FIX 2: Start pixel animation immediately on click
+        duration: 0.05,
+        stagger: {
+            each: 0.004,
+            from: "random",
+        },
     });
 
+    gsap.to(pixelUnits, {
+        opacity: 0,
+        delay: 1.5,
+        duration: 0.05,
+        stagger: {
+            each: 0.004,
+            from: "random",
+        },
+    });
+}
 
-    var imageone=document.querySelector(".imageone")
+let overlayVisible = false;
 
-imageone.addEventListener("mouseenter",function(){
-    imageone.style.scale="2"
-    imageone.style.transform="rotate(-10deg)"
+navToggleWrapper.addEventListener("click", () => {
+    // Clear old pixels and create new ones for the animation
+    pixelGridOverlay.innerHTML = "";
+    pixelUnits = [];
+    createPixelUnits();
+    animatePixelUnits();
+
+    // Logic for OPENING the menu
+    if (!overlayVisible) {
+        // 1. Bring menu to front immediately
+        gsap.set(fullScreenMenu, { zIndex: 9990 });
+
+        // 2. Fade in the menu text (Wait 1.2s for pixels to cover screen)
+        gsap.to(fullScreenMenu, 0.5, {
+            opacity: 1,
+            visibility: "visible",
+            delay: 1.2,
+        });
+    }
+    // Logic for CLOSING the menu
+    else {
+        // 1. Fade out menu text immediately
+        gsap.to(fullScreenMenu, 0.5, {
+            opacity: 0,
+            visibility: "hidden",
+            delay: 0,
+        });
+
+        // 2. Send zIndex to back AFTER fade out is done
+        gsap.set(fullScreenMenu, {
+            zIndex: -1,
+            delay: 0.5
+        });
+    }
+
+    overlayVisible = !overlayVisible;
+});
+
+
+var imageone = document.querySelector(".imageone")
+
+imageone.addEventListener("mouseenter", function () {
+    imageone.style.scale = "2"
+    imageone.style.transform = "rotate(-10deg)"
 })
 
-imageone.addEventListener("mouseleave",function(){
-    imageone.style.scale="1"
-    imageone.style.transform="rotate(0deg)"
+imageone.addEventListener("mouseleave", function () {
+    imageone.style.scale = "1"
+    imageone.style.transform = "rotate(0deg)"
 })
 
-  var imagetwo=document.querySelector(".imagetwo")
+var imagetwo = document.querySelector(".imagetwo")
 
 
-  imagetwo.addEventListener("mouseenter",function(){
-    imagetwo.style.scale="2"
-    imagetwo.style.transform="rotate(10deg)"
+imagetwo.addEventListener("mouseenter", function () {
+    imagetwo.style.scale = "2"
+    imagetwo.style.transform = "rotate(10deg)"
 })
 
-imagetwo.addEventListener("mouseleave",function(){
-    imagetwo.style.scale="1"
-    imagetwo.style.transform="rotate(0deg)"
+imagetwo.addEventListener("mouseleave", function () {
+    imagetwo.style.scale = "1"
+    imagetwo.style.transform = "rotate(0deg)"
 })
-  var imagethree=document.querySelector(".imagethree")
+var imagethree = document.querySelector(".imagethree")
 
-  imagethree.addEventListener("mouseenter",function(){
-    imagethree.style.scale="2"
-    imagethree.style.transform="rotate(-10deg)"
+imagethree.addEventListener("mouseenter", function () {
+    imagethree.style.scale = "2"
+    imagethree.style.transform = "rotate(-10deg)"
 })
 
-imagethree.addEventListener("mouseleave",function(){
-    imagethree.style.scale="1"
-    imagethree.style.transform="rotate(0deg)"
+imagethree.addEventListener("mouseleave", function () {
+    imagethree.style.scale = "1"
+    imagethree.style.transform = "rotate(0deg)"
 })
 
 // We wrap the logic in a DOMContentLoaded event to ensure HTML is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // Select the elements
-            const closeButton = document.getElementById('closeBannerBtn');
-            const banner = document.getElementById('promoBanner');
+document.addEventListener('DOMContentLoaded', () => {
 
-            // Define the close function
-            const closeBanner = () => {
-                // Add the 'hidden' class which triggers the CSS transition
-                banner.classList.add('hidden');
-                
-                // Optional: Remove from DOM completely after animation finishes (300ms)
-                setTimeout(() => {
-                    banner.style.display = 'none';
-                }, 300);
-            };
+    // Select the elements
+    const closeButton = document.getElementById('closeBannerBtn');
+    const banner = document.getElementById('promoBanner');
 
-            // Add the event listener to the button
-            if (closeButton) {
-                closeButton.addEventListener('click', closeBanner);
-            }
-        });
+    // Define the close function
+    const closeBanner = () => {
+        // Add the 'hidden' class which triggers the CSS transition
+        banner.classList.add('hidden');
+
+        // Optional: Remove from DOM completely after animation finishes (300ms)
+        setTimeout(() => {
+            banner.style.display = 'none';
+        }, 300);
+    };
+
+    // Add the event listener to the button
+    if (closeButton) {
+        closeButton.addEventListener('click', closeBanner);
+    }
+});
