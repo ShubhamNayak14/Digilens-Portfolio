@@ -81,6 +81,10 @@ h2 {
     font-style: normal;
 }
 
+@font-face {
+  font-family: "goodly";
+  src: url(./fonts/goodly.otf);
+}
 /* =========================================
    3. NAVIGATION & MENU (Updated)
 ========================================= */
@@ -103,7 +107,7 @@ nav {
 
 nav div {
     display: flex;
-    pointer-events: auto;
+    /* pointer-events: auto; */
 }
 
 nav div p {
@@ -515,7 +519,7 @@ h1 {
     backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   display: inline-block;
-  pointer-events: auto;
+  /* pointer-events: auto; */
     padding: 6px 12px;
   border-radius: 8px;
   font-size: 14px;
@@ -546,7 +550,7 @@ h1 {
   top: 80px;
   right: 30px;
   font-size: 32px;
-  cursor: pointer;
+  /* cursor: pointer; */
   color: #e8e8e8;
 }
 
@@ -555,7 +559,7 @@ h1 {
   top: 50%;
   transform: translateY(-50%);
   font-size: 40px;
-  cursor: pointer;
+  /* cursor: pointer; */
   color: #d6d6d6;
   padding: 20px;
   user-select: none;
@@ -839,7 +843,7 @@ h1 {
     }
 
     .footer-email {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         word-break: break-all;
         padding: 0 20px;
     }

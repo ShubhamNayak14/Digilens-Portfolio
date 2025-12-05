@@ -177,6 +177,10 @@ svg {
   #sound-btn .material-symbols-outlined {
     font-size: 22px;
   }
+  .preloader-text {
+  font-size: 1rem;
+
+  }
 }
 
 #main {
@@ -1125,9 +1129,9 @@ h3 {
 
 .marquee-contact-Journey span {
   font-family: "Gridular";
-  font-weight: 700;
+  font-weight: 600;
   color: #fff;
-  font-size: 8em;
+  font-size: 7em;
   text-transform: uppercase;
   display: inline-block;
   padding-left: -10%;
@@ -1154,9 +1158,9 @@ h3 {
 
 .marquee-contact span {
   font-family: "Gridular";
-  font-weight: 700;
+  font-weight: 600;
   color: #000;
-  font-size: 8em;
+  font-size: 7em;
   text-transform: uppercase;
   display: inline-block;
   padding-left: -10%;
@@ -1278,6 +1282,16 @@ textarea#message {
   .col {
     width: 100%;
   }
+  .marquee-contact span {
+  font-weight: 500;
+  color: #000;
+  font-size: 5em;
+}
+.marquee-contact-Journey span {
+  font-weight: 500;
+  color: #fff;
+  font-size: 5em;
+}
   
 }
 
