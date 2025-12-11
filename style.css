@@ -235,7 +235,7 @@ nav {
   border-radius: 6px;
   transition: background 0.3s;
 } */
-
+/* --- PART 1: HERO SECTION --- */
 .part-1 {
   position: relative;
   width: 100%;
@@ -254,7 +254,6 @@ nav {
       rgba(0, 0, 0, 0.4) 80%,
       rgba(0, 0, 0, 1) 100%);
   pointer-events: none;
-  /* allow clicks through */
   z-index: 2;
 }
 
@@ -275,13 +274,16 @@ nav {
   height: 200vh;
   background-color: #000;
   scale: 1;
+  /* PERFORMANCE FIX: smoothens the rotation */
+  will-change: transform; 
 }
 
 .row-div {
   display: flex;
   flex-direction: column;
   gap: 3vh;
-  width: calc(200vw / 6);
+  /* Calculates 5 columns evenly */
+  width: calc(200vw / 5); 
   height: 100%;
 }
 
@@ -296,35 +298,31 @@ nav {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Remove lazy loading for hero images to prevent flashing */
+  display: block;
 }
 
-#row-div-2 {
-  margin-top: 13%;
-}
+/* Offsets for the staggered look */
+#row-div-2 { margin-top: 13%; }
+#row-div-3 { margin-top: 10%; }
+#row-div-4 { margin-top: 8%; }
+#row-div-5 { margin-top: 5%; }
 
-#row-div-3 {
-  margin-top: 10%;
-}
-
-#row-div-4 {
-  margin-top: 8%;
-}
-
-#row-div-5 {
-  margin-top: 5%;
-}
-
+/* --- OVERLAY --- */
 .overlay-div {
-  position: relative;
+  position: absolute; /* Fixed: Removed conflicting relative */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  background-color: #00000000;
+  background-color: transparent;
   font-size: 6vw;
+  z-index: 10;
+  pointer-events: none; /* Ensures clicks pass through to nav if needed */
 }
 
 .overlay-div h1 {
@@ -344,75 +342,50 @@ nav {
   color: #fff;
 }
 
-.scroll-down h3 {
-  font-size: 0.7vw;
-}
+.scroll-down h3 { font-size: 0.7vw; }
+.scroll-p { width: 5.5vw; height: 2px; border-radius: 50px; background-color: #ffffff55; }
+.scrolling { width: 0vw; height: 2px; border-radius: 50px; background-color: #ed9154; }
 
-.scroll-p {
-  width: 5.5vw;
-  height: 2px;
-  border-radius: 50px;
-  background-color: #ffffff55;
-}
-
-.scrolling {
-  width: 0vw;
-  height: 2px;
-  border-radius: 50px;
-  background-color: #ed9154;
-}
 
 /* ------------------------------
    Responsive Adjustments
 --------------------------------*/
 
-/* Small Devices (Phones) */
+/* Tablet / Small Laptops */
 @media (max-width: 768px) {
-  /* nav {
-    height: 10vh;
-    padding: 0 6vw;
-  } */
-
-  .lft-nav {
-    font-size: 18px;
-  }
-
-  #logo {
-    font-size: 50px;
-  }
-
+  .lft-nav { font-size: 18px; }
+  #logo { font-size: 50px; }
+  .scroll-down h3 { font-size: 2vw; } /* Increased text size for mobile visibility */
+  .scroll-p { width: 15vw; }
 }
 
-/* Extra Small Devices */
+/* Mobile Devices */
 @media (max-width: 480px) {
-  nav {
-    height: 9vh;
-    padding: 0 5vw;
-  }
-  
-  .lft-nav {
-    margin-top: 24px;
+  nav { height: 9vh; padding: 0 5vw; }
+  .lft-nav { margin-top: 24px; }
+  #logo { font-size: 40px; }
 
+  /* FIX: Ensure the grid fits the mobile screen properly */
+  .rotate-div {
+    width: 200vw; /* Keep it wide for rotation */
+    gap: 2vw;
   }
-
-  #logo {
-    font-size: 40px;
-  }
-
 
   .row-div {
-    display: flex;
-    flex-direction: column;
-    gap: 3vh;
-    width: calc(200vw / 1);
-    height: 100%;
+    /* CRITICAL FIX: Do not use /1 here. 
+       We keep /5 or /4 to maintain the grid look on mobile */
+    width: calc(200vw / 4); 
+    gap: 2vh;
   }
 
+  /* Hide the outer edges on mobile to save performance */
+  #row-div-1, #row-div-5 {
+    display: none; 
+  }
+  
   .img-div {
-    width: 100%;
     height: calc(100% / 5);
-    border-radius: 10px;
-    overflow: hidden;
+    border-radius: 6px;
   }
 }
 
