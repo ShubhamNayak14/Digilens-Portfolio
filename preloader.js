@@ -2,9 +2,9 @@ const preloaderWords = [
   "Hello",
   "Olà",
   "やあ",
-  "হ্যালো",
-  "ନମସ୍କାର",
   "नमस्ते",
+  "Hello",
+
 ];
 
 const preloader = document.getElementById("preloader");
@@ -47,7 +47,7 @@ function startPreloader() {
   wordEl.textContent = preloaderWords[0];
   tl.to(wordEl, {
     opacity: 1,
-    duration: 0.5,
+    duration: 0.2,
     ease: "power3.out",
   });
 
