@@ -463,6 +463,68 @@
         <!-- <script src="scroll.js"></script> -->
 
         <script>
+
+          gsap.registerPlugin(ScrollTrigger);
+
+// Fade-in DIGILENS heading
+gsap.to(".overlay-div h1", {
+  opacity: 1,
+  duration: 1.5,
+  delay: 0.5,
+  ease: "power3.out",
+});
+
+// Scroll bar animation
+gsap.to(".scrolling", {
+  width: "5.5vw",
+  duration: 2,
+  repeat: -1,
+  yoyo: true,
+  ease: "power2.inOut"
+});
+
+// PARALLAX EFFECT FOR EACH COLUMN ON SCROLL
+const rows = document.querySelectorAll(".row-div");
+
+// Different scroll speed for each column
+rows.forEach((row, index) => {
+  gsap.to(row, {
+    y: () => -(index * 150), // **same staggered drift like CSS**
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".part-1",
+      start: "top top",
+      end: "bottom+=200% top",
+      scrub: 1.2,
+    },
+  });
+});
+
+// Slight Rotate on Scroll (same smooth feel)
+gsap.to(".rotate-div", {
+  rotate: -15,
+  scale: 1.05,
+  ease: "none",
+  scrollTrigger: {
+    trigger: ".part-1",
+    start: "top top",
+    end: "bottom+=200% top",
+    scrub: 1.5,
+  }
+});
+
+// Slow zoom out for the gallery (same as CSS depth feeling)
+gsap.to(".rotate-div", {
+  scale: 0.9,
+  ease: "none",
+  scrollTrigger: {
+    trigger: ".part-1",
+    start: "top top",
+    end: "bottom+=200% top",
+    scrub: 2,
+  }
+});
+          
           function showNotify(text, success = true) {
             const box = document.getElementById("notify");
             box.style.background = success ? "#28a745" : "#d9534f";

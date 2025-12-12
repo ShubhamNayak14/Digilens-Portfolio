@@ -57,7 +57,6 @@
   box-sizing: border-box;
   font-family: FontOne;
   font-weight: 400;
-
 }
 
 :root {
@@ -177,9 +176,9 @@ svg {
   #sound-btn .material-symbols-outlined {
     font-size: 22px;
   }
-  .preloader-text {
-  font-size: 1rem;
 
+  .preloader-text {
+    font-size: 1rem;
   }
 }
 
@@ -187,7 +186,6 @@ svg {
   width: 100%;
   min-height: 100vh;
 }
-
 
 nav {
   position: fixed;
@@ -200,7 +198,6 @@ nav {
   padding: 0vw 3vw;
   mix-blend-mode: difference;
   z-index: 999;
-
 }
 
 .lft-nav {
@@ -212,17 +209,12 @@ nav {
 .lft-nav h1 {
   color: #fff;
   font-family: goodly;
-
 }
-
-
 
 .rght-nav h2 {
   color: #fff;
   transition: all cubic-bezier(0.19, 1, 0.22, 1) 1s;
 }
-
-
 
 /* 
 .menu-btn {
@@ -235,7 +227,13 @@ nav {
   border-radius: 6px;
   transition: background 0.3s;
 } */
+
 /* --- PART 1: HERO SECTION --- */
+
+/* --- Main Container --- */
+/* ===========================
+   MAIN SECTION
+=========================== */
 .part-1 {
   position: relative;
   width: 100%;
@@ -244,6 +242,7 @@ nav {
   overflow: hidden;
 }
 
+/* Radial vignette overlay */
 .part-1::before {
   content: "";
   position: absolute;
@@ -265,28 +264,30 @@ nav {
   height: 100vh;
 }
 
+/* ===========================
+   ROTATING IMAGE GRID
+=========================== */
 .rotate-div {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
   gap: 2vw;
   width: 200vw;
   height: 200vh;
   background-color: #000;
-  scale: 1;
-  /* PERFORMANCE FIX: smoothens the rotation */
-  will-change: transform; 
+  transform-origin: center;
 }
 
+/* Each column */
 .row-div {
   display: flex;
   flex-direction: column;
   gap: 3vh;
-  /* Calculates 5 columns evenly */
-  width: calc(200vw / 5); 
+  width: calc(200vw / 6);
   height: 100%;
 }
 
+/* Image boxes */
 .img-div {
   width: 100%;
   height: calc(100% / 4);
@@ -298,94 +299,117 @@ nav {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Remove lazy loading for hero images to prevent flashing */
-  display: block;
 }
 
-/* Offsets for the staggered look */
-#row-div-2 { margin-top: 13%; }
-#row-div-3 { margin-top: 10%; }
-#row-div-4 { margin-top: 8%; }
-#row-div-5 { margin-top: 5%; }
+/* Column stagger (same-to-same) */
+#row-div-2 {
+  margin-top: 13%;
+}
 
-/* --- OVERLAY --- */
+#row-div-3 {
+  margin-top: 10%;
+}
+
+#row-div-4 {
+  margin-top: 8%;
+}
+
+#row-div-5 {
+  margin-top: 5%;
+}
+
+/* ===========================
+   OVERLAY (DIGILENS + SCROLL)
+=========================== */
 .overlay-div {
-  position: absolute; /* Fixed: Removed conflicting relative */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
-  background-color: transparent;
-  font-size: 6vw;
-  z-index: 10;
-  pointer-events: none; /* Ensures clicks pass through to nav if needed */
+  width: 100%;
+  height: 100vh;
+  z-index: 11;
+  pointer-events: none;
 }
 
 .overlay-div h1 {
   font-family: Gridular;
-  z-index: 11;
+  font-size: 6vw;
   opacity: 0;
+  /* GSAP fades this in */
 }
 
+/* Scroll down indicator */
 .scroll-down {
   position: absolute;
   bottom: 5%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   gap: 1vh;
   color: #fff;
 }
 
-.scroll-down h3 { font-size: 0.7vw; }
-.scroll-p { width: 5.5vw; height: 2px; border-radius: 50px; background-color: #ffffff55; }
-.scrolling { width: 0vw; height: 2px; border-radius: 50px; background-color: #ed9154; }
-
-
-/* ------------------------------
-   Responsive Adjustments
---------------------------------*/
-
-/* Tablet / Small Laptops */
-@media (max-width: 768px) {
-  .lft-nav { font-size: 18px; }
-  #logo { font-size: 50px; }
-  .scroll-down h3 { font-size: 2vw; } /* Increased text size for mobile visibility */
-  .scroll-p { width: 15vw; }
+.scroll-down h3 {
+  font-size: 0.7vw;
 }
 
-/* Mobile Devices */
-@media (max-width: 480px) {
-  nav { height: 9vh; padding: 0 5vw; }
-  .lft-nav { margin-top: 24px; }
-  #logo { font-size: 40px; }
+.scroll-p {
+  width: 5.5vw;
+  height: 2px;
+  border-radius: 50px;
+  background-color: #ffffff55;
+}
 
-  /* FIX: Ensure the grid fits the mobile screen properly */
-  .rotate-div {
-    width: 200vw; /* Keep it wide for rotation */
-    gap: 2vw;
+.scrolling {
+  width: 0vw;
+  height: 2px;
+  border-radius: 50px;
+  background-color: #ed9154;
+  /* GSAP animates width */
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+=========================== */
+
+/* Tablets / Large Phones */
+@media (max-width: 768px) {
+  .overlay-div h1 {
+    font-size: 10vw;
+  }
+
+  .scroll-down h3 {
+    font-size: 1.8vw;
+  }
+
+  .scroll-p {
+    width: 14vw;
+  }
+}
+
+/* Small Devices */
+@media (max-width: 480px) {
+  .overlay-div h1 {
+    font-size: 14vw;
   }
 
   .row-div {
-    /* CRITICAL FIX: Do not use /1 here. 
-       We keep /5 or /4 to maintain the grid look on mobile */
-    width: calc(200vw / 4); 
-    gap: 2vh;
+    width: calc(200vw / 1);
   }
 
-  /* Hide the outer edges on mobile to save performance */
-  #row-div-1, #row-div-5 {
-    display: none; 
-  }
-  
   .img-div {
     height: calc(100% / 5);
-    border-radius: 6px;
+  }
+
+  .scroll-down h3 {
+    font-size: 3vw;
+  }
+
+  .scroll-p {
+    width: 22vw;
   }
 }
 
@@ -536,7 +560,6 @@ nav {
 
 /* ------------part-4---------- */
 
-
 /* ----------part-5--------- */
 
 .part-5 {
@@ -594,10 +617,7 @@ nav {
   transform: translate(-50%);
 }
 
-
-
 /* ----------part-7--------- */
-
 
 .part-7 {
   display: flex;
@@ -624,7 +644,6 @@ nav {
   font-size: 5vw;
 }
 
-
 #work {
   position: absolute;
   bottom: 0;
@@ -645,7 +664,6 @@ nav {
   background-color: #fff;
 }
 
-
 .scroll-work {
   width: 100%;
   height: 60vh;
@@ -662,8 +680,6 @@ nav {
 .scroll-img img {
   width: 100%;
 }
-
-
 
 /* photography */
 .page {
@@ -723,8 +739,6 @@ nav {
   text-align: center;
   font-weight: 200;
 }
-
-
 
 /* //        RESPONSIVE      // */
 
@@ -791,11 +805,7 @@ nav {
     text-align: center;
     font-weight: 500;
   }
-
-
-
 }
-
 
 /* Cursor styling */
 .cursor {
@@ -811,8 +821,6 @@ nav {
   transition: transform 0.15s ease-out;
   z-index: 999999;
 }
-
-
 
 img {
   width: 100%;
@@ -1028,15 +1036,15 @@ h3 {
     padding: 0.5rem 1rem;
     font-size: 0.7rem;
   }
-  .h2-Journey{
-  font-size: 1.5rem;
-  color: white;
 
-  font-weight: 500;
-  letter-spacing: -0.075rem;
-  line-height: 1.125;
-}
+  .h2-Journey {
+    font-size: 1.5rem;
+    color: white;
 
+    font-weight: 500;
+    letter-spacing: -0.075rem;
+    line-height: 1.125;
+  }
 }
 
 .container-bar {
@@ -1075,20 +1083,16 @@ h3 {
 
 .social-bar li a:hover img {
   transform: translateX(-4px);
-
 }
 
-
-@media (max-width: 468px) {
+/* @media (max-width: 468px) {
   .container-bar {
     display: none;
-    /* hidden on small devices */
-  }
 }
+} */
 
-
-.container-contact {
-  background-color: #FFF;
+*/ .container-contact {
+  background-color: #fff;
 }
 
 .marquee-contact-Journey {
@@ -1248,31 +1252,30 @@ textarea#message {
     width: 100%;
     display: flex;
   }
-  
 }
 
 @media (max-width: 900px) {
   .col {
     width: 100%;
   }
-  .marquee-contact span {
-  font-weight: 500;
-  color: #000;
-  font-size: 5em;
-}
-.marquee-contact-Journey span {
-  font-weight: 500;
-  color: #fff;
-  font-size: 5em;
-} 
-}
 
+  .marquee-contact span {
+    font-weight: 500;
+    color: #000;
+    font-size: 5em;
+  }
+
+  .marquee-contact-Journey span {
+    font-weight: 500;
+    color: #fff;
+    font-size: 5em;
+  }
+}
 
 /* Menu Toggle Button (Aligned Top-Right) */
 #nav-toggle-wrapper {
   position: fixed;
   top: 30px;
-  ;
   right: 20px;
   left: auto;
   transform: none;
@@ -1392,7 +1395,6 @@ textarea#message {
   font-family: "Gridular", sans-serif;
 }
 
-
 /* Page 2 Css */
 
 .pagetwo {
@@ -1473,20 +1475,12 @@ textarea#message {
 /* //        RESPONSIVE      // */
 
 @media (max-width: 700px) {
-
-
-
-
   .page {
     width: 100vw;
     height: 100vh;
-
   }
 
-
-
   .pagetwo {
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1548,7 +1542,6 @@ textarea#message {
   }
 
   .button {
-
     font-family: mint;
     font-size: 11px;
     background-color: transparent;
@@ -1563,20 +1556,17 @@ textarea#message {
   .button:hover {
     background-color: rgba(255, 255, 255, 0.074);
   }
-
 }
 
 #nav-btn-menu {
   font-size: 1.2vw;
   color: black;
-
 }
 
 @media (max-width: 700px) {
   #nav-btn-menu {
     font-size: 20px;
     color: black;
-
   }
 
   #nav-toggle-wrapper {
@@ -1584,7 +1574,6 @@ textarea#message {
     padding: 1vw 1.5vw;
     border-radius: 4vw;
   }
-
 }
 
 .notify {
@@ -1703,7 +1692,6 @@ textarea#message {
 .close-btn:hover {
   color: #ffffff;
   border: none;
-
 }
 
 /* Mobile Responsiveness (Fits devices from 600px down to 300px) */
@@ -1713,10 +1701,10 @@ textarea#message {
        Right padding is set to 44px. This reserves space specifically 
        for the close button so text wraps before hitting it. */
     padding: 10px 30px 10px 12px;
-    
+
     /* Aligns content to the left rather than center */
     justify-content: flex-start;
-    align-items: flex-start; 
+    align-items: flex-start;
   }
 
   .banner-content {
@@ -1726,20 +1714,20 @@ textarea#message {
     width: 100%;
     margin-left: 30px;
     /* Reduce font size to 12px so more words fit on one line */
-    font-size: 9px; 
+    font-size: 9px;
     line-height: 1.5;
   }
 
   .close-btn {
     /* Push the button closer to the right edge to save space */
-    right: 4px; 
-    
+    right: 4px;
+
     /* Keep button vertically centered */
     top: 50%;
     transform: translateY(-50%);
-    
+
     /* Slightly smaller icon size for small screens */
     font-size: 20px;
-    padding: 6px; 
+    padding: 6px;
   }
 }
