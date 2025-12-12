@@ -464,37 +464,8 @@
         <script>
 
           gsap.registerPlugin(ScrollTrigger);
-const lenis = new Lenis({
-  duration: 1.4,
-  easing: (t) => 1 - Math.pow(1 - t, 3),
-  smooth: true,
-  smoothTouch: true,
-  touchMultiplier: 1.8
-});
 
-// RAF loop (Lenis core animation loop)
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
-
-// Sync Lenis with GSAP ScrollTrigger
-gsap.ticker.add((time) => {
-  lenis.raf(time * 1000);
-});
-
-gsap.registerPlugin(ScrollTrigger);
-
-// Refresh ScrollTrigger after Lenis boot
-setTimeout(() => ScrollTrigger.refresh(), 500);
-
-
-/* ============================================
-   GSAP ANIMATIONS
-============================================ */
-
-// ---- DIGILENS HEADING FADE-IN ----
+// Fade-in DIGILENS heading
 gsap.to(".overlay-div h1", {
   opacity: 1,
   duration: 1.5,
@@ -502,21 +473,22 @@ gsap.to(".overlay-div h1", {
   ease: "power3.out",
 });
 
-// ---- SCROLL BAR ANIMATION ----
+// Scroll bar animation
 gsap.to(".scrolling", {
   width: "5.5vw",
   duration: 2,
   repeat: -1,
   yoyo: true,
-  ease: "power2.inOut",
+  ease: "power2.inOut"
 });
 
-// ---- PARALLAX IMAGE COLUMNS ----
+// PARALLAX EFFECT FOR EACH COLUMN ON SCROLL
 const rows = document.querySelectorAll(".row-div");
 
+// Different scroll speed for each column
 rows.forEach((row, index) => {
   gsap.to(row, {
-    y: () => -(index * 150),
+    y: () => -(index * 150), // **same staggered drift like CSS**
     ease: "none",
     scrollTrigger: {
       trigger: ".part-1",
@@ -527,7 +499,7 @@ rows.forEach((row, index) => {
   });
 });
 
-// ---- GRID ROTATION ----
+// Slight Rotate on Scroll (same smooth feel)
 gsap.to(".rotate-div", {
   rotate: -15,
   scale: 1.05,
@@ -540,7 +512,7 @@ gsap.to(".rotate-div", {
   }
 });
 
-// ---- ZOOM OUT ----
+// Slow zoom out for the gallery (same as CSS depth feeling)
 gsap.to(".rotate-div", {
   scale: 0.9,
   ease: "none",
@@ -596,7 +568,7 @@ gsap.to(".rotate-div", {
         </script>
 
 
-        <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+        <!-- <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script> -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
           integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg=="
           crossorigin="anonymous" referrerpolicy="no-referrer"></script>
